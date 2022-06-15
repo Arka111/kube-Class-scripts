@@ -1,0 +1,21 @@
+---
+# the pod will prefer a node that has a disktype=ssd label
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-preferred
+spec:
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+          - key: env
+            operator: In
+            values:
+            - development
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: IfNotPresent
